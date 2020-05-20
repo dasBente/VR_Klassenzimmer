@@ -37,7 +37,7 @@ public class ControlMenu : MonoBehaviour
     }
     public void loadFrontalScene()
     {
-        MenuDataHolder.ChosenScene = 1;
+        MenuDataHolder.ChosenScene = 3;
         MenuDataHolder.repetitionCount++;
         MenuDataHolder.walkedDistance = 0;
         MenuDataHolder.MisbehaviourCount = 0;
@@ -114,42 +114,42 @@ public class ControlMenu : MonoBehaviour
                 }
             case 1:
                 {
-                    MenuDataHolder.ChosenScene = 1;
+                    MenuDataHolder.ChosenScene = 3;
                     MenuDataHolder.LevelOfMisbehavior = 1;
                     MenuDataHolder.StudentCount = 30;
                     MenuDataHolder.isPresentation = true;
                     MenuDataHolder.isExperiment = true; 
-                    SceneManager.LoadScene(1);
+                    SceneManager.LoadScene(3);
                     break;
                 }
             case 2:
                 {
-                    MenuDataHolder.ChosenScene = 1;
+                    MenuDataHolder.ChosenScene = 3;
                     MenuDataHolder.LevelOfMisbehavior = 1;
                     MenuDataHolder.StudentCount = 30;
                     MenuDataHolder.isPresentation = false;
                     MenuDataHolder.isExperiment = true;
-                    SceneManager.LoadScene(1);
+                    SceneManager.LoadScene(3);
                     break;
                 }
             case 3:
                 {
-                    MenuDataHolder.ChosenScene = 1;
+                    MenuDataHolder.ChosenScene = 3;
                     MenuDataHolder.LevelOfMisbehavior = 3;
                     MenuDataHolder.StudentCount = 30;
                     MenuDataHolder.isPresentation = true;
                     MenuDataHolder.isExperiment = true;
-                    SceneManager.LoadScene(1);
+                    SceneManager.LoadScene(3);
                     break;
                 }
             case 4:
                 {
-                    MenuDataHolder.ChosenScene = 1;
+                    MenuDataHolder.ChosenScene = 3;
                     MenuDataHolder.LevelOfMisbehavior = 3;
                     MenuDataHolder.StudentCount = 30;
                     MenuDataHolder.isPresentation = false;
                     MenuDataHolder.isExperiment = true;
-                    SceneManager.LoadScene(1);
+                    SceneManager.LoadScene(3);
                     break;
                 }
         }
