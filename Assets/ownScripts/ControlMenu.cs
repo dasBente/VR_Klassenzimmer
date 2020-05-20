@@ -43,7 +43,7 @@ public class ControlMenu : MonoBehaviour
         MenuDataHolder.MisbehaviourCount = 0;
         MenuDataHolder.MisbehaviourSolved = 0;
         MenuDataHolder.MisbehaviourSeen = 0;
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(3);
     }
     public void loadGroupScene()
     {

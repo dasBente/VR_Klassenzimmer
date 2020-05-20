@@ -10,12 +10,16 @@ public class ClassController : MonoBehaviour
 
     void Start()
     {
-        GameObject[] students = GameObject.FindGameObjectsWithTag("Student");
+        students = GameObject.FindGameObjectsWithTag("Student");
+
         PlaceDict = new Dictionary<string, GameObject>();
 
         int i = 2;
         foreach (GameObject s in students) // TODO just use students instead or something like that
+        {
             PlaceDict[string.Format("{0:D2}{1}", i / 2, i % 2 == 0 ? 'L' : 'R')] = s;
+            i++;
+        }
 
         ToggleStudents(
             MenuDataHolder.StudentCount != 0 ? MenuDataHolder.StudentCount : students.Length
