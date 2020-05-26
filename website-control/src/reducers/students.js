@@ -1,14 +1,20 @@
-const students = []
-const rows = 5
-const cols = 3
+import { INIT_STUDENTS } from 'actions/students'
 
-// Temp
-for (let x = 0; x < cols; x++) {
-  for (let y = 0; y < rows; y++) {
-    const desk = (y + rows * x)
-    students.append({ x, y, seat: desk + 'L', action: 'idle' })
-    students.append({ x, y, seat: desk + 'R', action: 'idle' })
+const students = (state = [], action) => {
+  switch (action.type) {
+    case INIT_STUDENTS: {
+      const s = []
+
+      for (let desk = 1; desk <= 15; desk++) {
+        s.append({ desk, seat: 'L', action: 'idle' })
+        s.append({ desk, seat: 'R', action: 'idle' })
+      }
+
+      return s
+    }
+    default:
+      return state
   }
 }
 
-export default (state = students, action) => state
+export default students
