@@ -1,6 +1,7 @@
 {
   "extends": ["plugin:react/recommended", "standard", "standard-react"],
-  "rules": {},
+  "rules": {
+  },
   "env": {
         "browser": true,
         "node": true
