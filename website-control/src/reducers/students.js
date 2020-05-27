@@ -1,17 +1,20 @@
-import { INIT_STUDENTS } from 'actions/students'
+import { INIT_STUDENTS, TOGGLE_STUDENT, SELECT_ALL, TRIGGER_BEHAVIOUR } from 'actions/students'
 
 const range = (i) => [...Array(i).keys()]
 
-const students = (state = [], action) => {
-  switch (action.type) {
+const updateMatching = (arr, query, updateFn) => arr.map(v => query(v) ? updateFn(v) : v)
+
+const students = (state = [], { type, payload }) => {
+  switch (type) {
     case INIT_STUDENTS:
-      return range(15).reduce(
-        (res, i) => [
-          ...res,
-          { desk: i, name: 'TEMP', seat: 'L', action: 'idle' },
-          { desk: i, name: 'TEMP', seat: 'R', action: 'idle' }
-        ],
-        []
+      return range(30).map(i => ({ id: i, name: 'TEMP', behaviour: 'idle', selected: false }))
+    case TOGGLE_STUDENT:
+      return updateMatching(state, s => s.id === payload, s => ({ ...s, selected: !s.selected }))
+    case SELECT_ALL:
+      return state.map(s => ({ ...s, selected: payload }))
+    case TRIGGER_BEHAVIOUR:
+      return state.map(
+        s => s.selected ? ({ ...s, selected: false, behaviour: payload }) : s
       )
     default:
       return state
