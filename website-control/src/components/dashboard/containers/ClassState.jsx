@@ -2,16 +2,14 @@ import ClassState from '../ClassState'
 import { connect } from 'react-redux'
 import { initStudents } from 'actions/students'
 
-const mapStateToProps = ({ students }) => {
-  const res = []
-
-  students.forEach(s => {
-    if (!res[s.desk]) res[s.desk] = []
-    res[s.desk].append(s)
-  })
-
-  return { desks: res.filter(r => r) }
-}
+const mapStateToProps = ({ students }) => ({
+  desks: students.reduce(
+    (res, next) => ({
+      ...res, [next.desk]: res[next.desk] ? [...res[next.desk], next] : [next]
+    }),
+    {}
+  )
+})
 
 const mapDispatchToProps = {
   init: initStudents
