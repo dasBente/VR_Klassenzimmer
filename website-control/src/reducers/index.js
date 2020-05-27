@@ -1,3 +1,1 @@
-export default (state, action) => {
-  return {}
-}
+export { default as students } from './students'

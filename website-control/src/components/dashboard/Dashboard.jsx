@@ -1,4 +1,5 @@
 import React from 'react'
+import ClassState from './containers/ClassState'
 
 const Dashboard = () => (
   <div className={`
@@ -7,6 +8,7 @@ const Dashboard = () => (
     `}
   >
     <h1 className='h2'>Dashboard</h1>
+    <ClassState />
   </div>
 )
 
