@@ -6,8 +6,8 @@ const students = (state = [], action) => {
       const s = []
 
       for (let desk = 1; desk <= 15; desk++) {
-        s.append({ desk, seat: 'L', action: 'idle' })
-        s.append({ desk, seat: 'R', action: 'idle' })
+        s.append({ desk, seat: 'L', name: 'TEMP', action: 'idle' })
+        s.append({ desk, seat: 'R', name: 'TEMP', action: 'idle' })
       }
 
       return s

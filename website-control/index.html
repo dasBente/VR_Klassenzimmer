@@ -14,12 +14,5 @@
   <body>
     <div id="appRoot" class="container-fluid" style="padding-left:0; padding-right:0"></div>
 		<script type="text/javascript" src="./js/bundle.js"></script>
-
-		<script>
-			var ws = new WebSocket("ws://localhost:8080/SockServer");
-			ws.onopen = function(e) {
-				ws.send("Ich komme aus JS");
-			};
-		</script>
   </body>
 </html>
