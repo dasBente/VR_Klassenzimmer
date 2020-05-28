@@ -1,5 +1,8 @@
 export const INIT_STUDENTS = 'students/INIT_STUDENTS'
-export const initStudents = () => ({ type: INIT_STUDENTS })
+export const initStudents = students => ({ type: INIT_STUDENTS, payload: students })
+
+export const STOP_STUDENT = 'students/STOP_STUDENT'
+export const stopStudent = id => ({ type: STOP_STUDENT, payload: id })
 
 export const TOGGLE_STUDENT = 'students/TOGGLE_STUDENT'
 export const toggleStudent = id => ({ type: TOGGLE_STUDENT, payload: id })

@@ -14,11 +14,13 @@ public class DisruptanceController : MonoBehaviour
     private Transform conversationPartner;
     private Animator animator;
     private LookAt lookat;
+    private StudentController sc;
 
     private Collider interventionTrigger;
 
     private void Start()
     {
+        sc = GetComponent<StudentController>();
         animator = GetComponent<Animator>();
         lookat = GetComponent<LookAt>();
         nextBlink = Random.Range(5, 15);
@@ -48,7 +50,8 @@ public class DisruptanceController : MonoBehaviour
     {
         chanceToMisbehave = 0f;
         timeSinceLastDisruption = 0f;
-        
+        sc.Behaviour = disruption;
+
         switch (disruption)
         {
             case "breathing":

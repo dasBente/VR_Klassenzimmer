@@ -6,6 +6,7 @@ using System.Threading;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using WebSocketSharp.Server;
 
 public class NetworkController : MonoBehaviour {
     public AmbientSound AmbientController;
@@ -18,9 +19,9 @@ public class NetworkController : MonoBehaviour {
 
     private String[] studentPlacesToAnimate;
     private String stoerung;
-    private Thread th;
-    private Socket client;
-
+    
+    private WebSocketServer socket;
+    
     // Use this for initialization
     void Start() {
         switch (MenuDataHolder.ChosenScene)
@@ -33,37 +34,14 @@ public class NetworkController : MonoBehaviour {
                 Application.OpenURL("file:///D:/Unity/Klassenzimmer/website-control/controlGroupWorkScene.html");
                 break;
         }
-        
-        IPAddress localAddr = IPAddress.Parse("127.0.0.1");
-        Server = new TcpListener(localAddr, 20000);
-        Server.Start();
-        th = new Thread(new ThreadStart(StartListeining));
-        th.Start();
 
         classController = GetComponent<ClassController>();
-    }
-
-    private void OnDisable()
-    {
-        th.Abort();
-        Server.Stop();
-    }
-
-    private void OnApplicationQuit()
-    {
-        try
-        {
-            th.Abort();
-        }
-        catch(Exception) { }
-        finally
-        {
-            Server.Stop();
-        }
+        socket = SocketServer.HostServer();
     }
 
     private void StartListeining()
     {
+            /*
         Dictionary<string, string> map;
         Byte[] buffer = new Byte[256];
         while (true)
@@ -102,7 +80,7 @@ public class NetworkController : MonoBehaviour {
                 Debug.Log("Server already closed");
             }
             
-        }
+        }*/
         
     }
 
@@ -142,19 +120,5 @@ public class NetworkController : MonoBehaviour {
             atmosphereChange = false;
             OnAmbientChange();
         }
-    }
-
-    Dictionary<string, string> TransformHTTPToMap(Byte[] buffer)
-    {
-        Dictionary<string, string> map = new Dictionary<string, string>();
-        string incomingRequest = Encoding.UTF8.GetString(buffer);
-        List<string> pairs = incomingRequest.Split('=', '?', '&').ToList<string>();
-        pairs.Remove(" ");
-        pairs.Remove("GET /");
-        for (int i = 0; i < pairs.Count / 2; i = i + 2)
-        {
-            map.Add(pairs[i], pairs[i + 1]);
-        }
-        return map;
     }
 }

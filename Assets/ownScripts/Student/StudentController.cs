@@ -11,7 +11,9 @@ public class StudentController : MonoBehaviour
     /// </summary>
     public string Name;
 
-    public float AwarenessRange = 1.4f;
+    private float AwarenessRange = 1.4f;
+
+    public string Behaviour;
 
     /// <summary>
     /// Generate and fill out a new student instance.
@@ -29,6 +31,7 @@ public class StudentController : MonoBehaviour
 
         StudentController sc = student.AddComponent<StudentController>();
         student.AddComponent(typeof(DisruptanceController));
+
         //Add all scripts to students to give them kinda individual characters
         student.AddComponent(typeof(MixamoAttechment));
         student.AddComponent(typeof(playSound));

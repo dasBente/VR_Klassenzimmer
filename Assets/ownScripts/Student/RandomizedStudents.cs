@@ -66,7 +66,7 @@ public class RandomizedStudents : StudentPlacer
 
         GameObject model = models[(int)Random.Range(0, models.Length - 1)];
         GameObject student = StudentController.GenerateStudentModel(model, chair);
-        student.GetComponent<StudentController>().Name = names[(int)Random.Range(0, names.Length - 1)];
+        student.GetComponent<StudentController>().name = names[(int)Random.Range(0, names.Length - 1)];
         return student;
     }
 

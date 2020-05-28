@@ -18,10 +18,17 @@ public class SocketServer : WebSocketBehavior
 
     public static WebSocketServer HostServer()
     {
-        var wssv = new WebSocketServer("ws://localhost:8080");
+        var wssv = new WebSocketServer("ws://localhost:10000");
         wssv.AddWebSocketService<SocketServer>("/SockServer");
+        
         wssv.Start();
+
         Debug.Log("Start Socket Server");
         return wssv;
+    }
+
+    protected override void OnOpen()
+    {
+        
     }
 }
