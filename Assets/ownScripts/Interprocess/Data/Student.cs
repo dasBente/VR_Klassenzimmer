@@ -15,10 +15,10 @@ public class Student
         this.behaviour = behaviour;
     }
 
-    public Student(StudentController sc)
+    public Student(StudentController sc, int id)
     {
         this.name = sc.Name;
-        this.id = sc.GetHashCode();
+        this.id = id;
         this.behaviour = sc.Behaviour;
     }
 

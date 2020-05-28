@@ -3,11 +3,14 @@ import PropTypes from 'prop-types'
 import StudentState from './containers/StudentState'
 import ToggleAll from './ToggleAll'
 import BehaviourControls from './containers/BehaviourControls'
+import { initSocket } from 'actions/websocket'
 
 class ClassState extends React.Component {
   /** TODO: Replace with a canvas to get a appropriate positional distribution */
   componentDidMount () {
     this.props.init()
+
+    initSocket()
   }
 
   render () {

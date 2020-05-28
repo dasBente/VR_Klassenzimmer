@@ -1,0 +1,12 @@
+{
+  "extends": ["plugin:react/recommended", "standard", "standard-react"],
+  "rules": {
+  },
+  "env": {
+        "browser": true,
+        "node": true
+  },
+  "globals": {
+    "$": "readonly"
+  }
+}

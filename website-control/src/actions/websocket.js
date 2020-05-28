@@ -1,13 +1,28 @@
-import io from 'socket.io-client'
-import { messageTypes, uri } from 'constants/websocket'
+const socket = new WebSocket('ws://localhost:10000/SockServer')
 
-const socket = io(uri, { path: 'SockServer' })
-
-export const init = ({ dispatch }) => {
-  socket.connect()
-  Object.keys(messageTypes).forEach(type => socket.on(type, payload => dispatch({ type, payload })))
-  socket.on('connect', () => socket.send('BOOTSTRAP'))
-  setInterval(() => { console.log('ping'); socket.send('PING') }, 1000)
+/*
+export const emit = (action) => {
+  socket.send(action.type + ';' + JSON.stringify(action.payload))
 }
+*/
 
-export const emit = (type, payload) => socket.emit(type, payload)
+export const initSocket = () => {
+  socket.onopen = e => {
+    console.log('[open] Connection established!')
+    console.log('Sending to server')
+
+    socket.send('bootstrap;{}')
+  }
+
+  socket.onmessage = e => {
+    console.log(e.data)
+  }
+
+  socket.onclose = e => {
+    console.log('Connection closed')
+  }
+
+  socket.onerror = e => {
+    console.error(`[error] ${e.message}`)
+  }
+}
