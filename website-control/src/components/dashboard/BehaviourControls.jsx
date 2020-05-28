@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { goodBehaviours, badBehaviours } from './constants'
+import { goodBehaviours, badBehaviours } from 'constants/behaviour'
 import BehaviourButton from './BehaviourButton'
 
 const BehaviourControls = ({ triggerBehaviour }) => (

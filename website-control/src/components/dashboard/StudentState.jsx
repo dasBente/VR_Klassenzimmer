@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { behaviourColors } from './constants'
+import { behaviourColors } from 'constants/behaviour'
 
 const StudentState = ({ student: { id, name, behaviour, selected }, toggle }) => (
   <div className='mb-2'>
