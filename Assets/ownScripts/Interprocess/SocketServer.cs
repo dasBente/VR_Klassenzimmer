@@ -7,44 +7,36 @@ using WebSocketSharp.Server;
 
 public class SocketServer : WebSocketBehavior
 {
+    private SocketEventHandler handler;
+
     protected override void OnMessage(MessageEventArgs e)
     {
         char[] sep = { ';' }; // ??? why can't you just be normal C#
         string[] action = e.Data.Split(sep, 2);
-
-        Debug.Log(e.Data);
-
-        // TODO: translate payload depending on action[0]
-        // TODO: execute a function depending on action[0], which gets new object from above
-
-        // TODO: automize this somehow
-        switch (action[0])
-        {
-            case "disrupt":
-                Debug.Log("[event] disrupt");
-                Disruption req = JsonUtility.FromJson<Disruption>(action[1]);
-                // TODO: Rework disruption system
-                break;
-
-            case "bootstrap":
-                Debug.Log("[event] bootstrap");
-                BootstrapResp b = BootstrapResp.FromStudents(GameObject.FindGameObjectsWithTag("students"));
-                Debug.Log(b.students);
-                string resp = JsonUtility.ToJson(b);
-                Send(resp);
-                break;
-        }
+        handler.EnqueueEvent(action[0], action[1]);
     }
 
-    public static WebSocketServer HostServer()
+    public static SocketServer HostServer()
     {
         var wssv = new WebSocketServer("ws://localhost:10000");
-        wssv.AddWebSocketService<SocketServer>("/SockServer");
+        SocketServer s = new SocketServer();
+
+        wssv.AddWebSocketService("/SockServer", () => s); // TODO deprecated
         
         wssv.Start();
-
         Debug.Log("Start Socket Server");
-        return wssv;
+        
+        return s;
+    }
+
+    public void SubscribeEventHandler(SocketEventHandler seh)
+    {
+        handler = seh;
+    }
+
+    public void Emit(JsonData data)
+    {
+        Send(JsonUtility.ToJson(data));
     }
 
     protected override void OnOpen()

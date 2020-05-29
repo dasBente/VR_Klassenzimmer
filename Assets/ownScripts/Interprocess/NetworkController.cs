@@ -20,23 +20,24 @@ public class NetworkController : MonoBehaviour {
     private String[] studentPlacesToAnimate;
     private String stoerung;
     
-    private WebSocketServer socket;
+    private SocketServer socket;
+    private SocketEventHandler handler;
     
     // Use this for initialization
-    void Start() {
-        switch (MenuDataHolder.ChosenScene)
-        {
-            case 0:
-            case 1:
-                Application.OpenURL("file:///D:/Unity/Klassenzimmer/website-control/controlLectureScene.html");
-                break;
-            case 2:
-                Application.OpenURL("file:///D:/Unity/Klassenzimmer/website-control/controlGroupWorkScene.html");
-                break;
-        }
-
+    void Start()
+    {
         classController = GetComponent<ClassController>();
+        initSocketServer();
+    }
+
+    private void initSocketServer()
+    {
+        handler = GetComponent<SocketEventHandler>();
+
         socket = SocketServer.HostServer();
+        socket.SubscribeEventHandler(handler);
+
+        handler.RegisterHandler("bootstrap", json => socket.Emit(StudentController.ClassToJson()));
     }
 
     private void StartListeining()
@@ -109,6 +110,8 @@ public class NetworkController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        handler.ProcessEvents();
+
         if (distortionRequested)
         {
             distortionRequested = false;

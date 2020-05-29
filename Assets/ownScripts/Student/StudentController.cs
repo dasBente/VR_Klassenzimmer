@@ -10,10 +10,17 @@ public class StudentController : MonoBehaviour
     /// Name of the student.
     /// </summary>
     public string Name;
+    public string Id;
 
     private float AwarenessRange = 1.4f;
 
-    public string Behaviour;
+    public string Behaviour = "idle";
+
+    private void Start()
+    {
+        Behaviour = "idle";
+        Id = this.GetHashCode().ToString();
+    }
 
     /// <summary>
     /// Generate and fill out a new student instance.
@@ -30,6 +37,7 @@ public class StudentController : MonoBehaviour
         // Attach common components to students
 
         StudentController sc = student.AddComponent<StudentController>();
+
         student.AddComponent(typeof(DisruptanceController));
 
         //Add all scripts to students to give them kinda individual characters
@@ -52,5 +60,21 @@ public class StudentController : MonoBehaviour
         audisource.maxDistance = 10;
 
         return student;
+    }
+
+    public static BootstrapResponse ClassToJson()
+    {
+        var students = GameObject.FindGameObjectsWithTag("Student");
+        var res = new string[students.Length];
+        var i = 0;
+
+        foreach (var student in students)
+        {
+            var sc = student.GetComponent<StudentController>();
+            res[i] = (new Student(sc)).ToJSON();
+            i++;
+        }
+
+        return new BootstrapResponse(res);
     }
 }
