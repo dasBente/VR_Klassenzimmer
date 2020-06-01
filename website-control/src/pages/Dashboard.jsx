@@ -1,5 +1,6 @@
 import React from 'react'
 import ClassState from '../features/classState/ClassState'
+import WebSocketState from '../features/websocket/WebSocketState'
 
 const Dashboard = () => (
   <div>
@@ -9,6 +10,7 @@ const Dashboard = () => (
       `}
     >
       <h1 className='h2 row'>Dashboard</h1>
+      <WebSocketState />
     </div>
     <ClassState />
   </div>
