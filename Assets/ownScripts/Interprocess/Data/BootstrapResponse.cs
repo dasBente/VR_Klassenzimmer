@@ -5,9 +5,9 @@ using System;
 public class BootstrapResponse : JsonData
 {
     public string type = "bootstrap";
-    public string[] students;
+    public Student[] students;
 
-    public BootstrapResponse(string[] students)
+    public BootstrapResponse(Student[] students)
     {
         this.students = students;
     }

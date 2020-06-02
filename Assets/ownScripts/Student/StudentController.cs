@@ -65,13 +65,13 @@ public class StudentController : MonoBehaviour
     public static BootstrapResponse ClassToJson()
     {
         var students = GameObject.FindGameObjectsWithTag("Student");
-        var res = new string[students.Length];
+        var res = new Student[students.Length];
         var i = 0;
 
         foreach (var student in students)
         {
             var sc = student.GetComponent<StudentController>();
-            res[i] = (new Student(sc)).ToJSON();
+            res[i] = new Student(sc);
             i++;
         }
 

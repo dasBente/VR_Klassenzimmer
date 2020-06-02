@@ -28,7 +28,7 @@ export const requestBootstrapping = () => {
 const handleMessage = (action, dispatch) => {
   switch (action.type) {
     case 'bootstrap':
-      dispatch(init(action.students.map(s => JSON.parse(s))))
+      dispatch(init(action.students))
       break;
     default:
       dispatch(socketError('Unbekannter Aktionstyp ' + action.type))
