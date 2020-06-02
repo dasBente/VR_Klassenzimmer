@@ -16,15 +16,16 @@ public class SocketServer : WebSocketBehavior
         handler.EnqueueEvent(action[0], action[1]);
     }
 
-    public static SocketServer HostServer()
+    public static SocketServer HostServer(string host, int port, string servicePath)
     {
-        var wssv = new WebSocketServer("ws://localhost:10000");
+        string uri = String.Format("ws://{0}:{1}", host, port);
+        var wssv = new WebSocketServer(uri);
         SocketServer s = new SocketServer();
 
-        wssv.AddWebSocketService("/SockServer", () => s); // TODO deprecated
+        wssv.AddWebSocketService("/" + servicePath, () => s); // TODO deprecated
         
         wssv.Start();
-        Debug.Log("Start Socket Server");
+        Debug.Log("[socket] Start connection at " + uri + "/" + servicePath);
         
         return s;
     }

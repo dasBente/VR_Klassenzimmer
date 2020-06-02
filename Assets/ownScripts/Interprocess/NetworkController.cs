@@ -20,24 +20,20 @@ public class NetworkController : MonoBehaviour {
     private String[] studentPlacesToAnimate;
     private String stoerung;
     
-    private SocketServer socket;
     private SocketEventHandler handler;
     
     // Use this for initialization
     void Start()
     {
         classController = GetComponent<ClassController>();
+        handler = GetComponent<SocketEventHandler>();
+
         initSocketServer();
     }
 
     private void initSocketServer()
     {
-        handler = GetComponent<SocketEventHandler>();
-
-        socket = SocketServer.HostServer();
-        socket.SubscribeEventHandler(handler);
-
-        handler.RegisterHandler("bootstrap", json => socket.Emit(StudentController.ClassToJson()));
+      
     }
 
     private void StartListeining()

@@ -3,11 +3,25 @@ using UnityEngine;
 
 public class SocketEventHandler : MonoBehaviour
 {
+    public string SocketHost = "localhost";
+    public int SocketPort = 10000;
+    public string SocketPath = "SockServer";
+
     private Queue<SocketEvent> eventQueue = new Queue<SocketEvent>();
 
     private Dictionary<string, Handler> eventHandlers = new Dictionary<string, Handler>();
 
     public delegate void Handler(string data);
+
+    private SocketServer socket;
+
+    private void Start()
+    {
+        socket = SocketServer.HostServer(SocketHost, SocketPort, SocketPath);
+        socket.SubscribeEventHandler(this);
+
+        this.RegisterHandler("bootstrap", json => socket.Emit(StudentController.ClassToJson()));
+    }
 
     public void RegisterHandler(string key, Handler handler)
     {

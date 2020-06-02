@@ -37,4 +37,6 @@ export const triggerBehaviourAsync = behaviour => dispatch => {
   dispatch(triggerBehaviour(behaviour))
 }
 
+export const selectStudents = ({ students }) => students
+
 export default studentsSlice.reducer

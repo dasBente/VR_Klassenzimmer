@@ -1,8 +1,11 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { selectAll } from './studentsSlice'
 
 const ToggleAll = () => {
-  const toggle = () => null;
-
+  const dispatch = useDispatch()
+  const toggle = b => dispatch(selectAll(b))
+  
   return (
     <div className='btn-group' role='group' aria-label='Alle Lerner aus oder abwählen'>
       <button

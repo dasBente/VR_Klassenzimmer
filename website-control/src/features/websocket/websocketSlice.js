@@ -4,7 +4,7 @@ export const websocketSlice = createSlice({
   name: 'websocket',
   initialState: {
     status: 'closed', // TODO other interesting states?
-    error: { type: 'none', msg: '' }
+    error: ''
   },
   reducers: {
     connectionState: (state, action) => { state.connected = action.payload },
@@ -28,9 +28,10 @@ const handleMessage = {
 }
 
 export const initSocket = () => dispatch => {
-  socket = new WebSocket("ws://localhost:10000/SockServer")
+  socket = new WebSocket("ws://localhost:12000/SockServer")
 
   socket.onopen = e => {
+    dispatch(connectionState('connected'))
     requestBootstrapping()(dispatch)
   }
 
@@ -41,17 +42,22 @@ export const initSocket = () => dispatch => {
     if (fn) {
       fn(action, dispatch)
     } else {
-      dispatch(socketError({ type: 'warning', msg: 'Unbekannter Aktionstyp ' + action.type }))
+      dispatch(socketError('Unbekannter Aktionstyp ' + action.type))
+      dispatch(connectionState('warning'))
     }
   }
 
   socket.onerror = e => {
-    dispatch(socketError({ type: 'error', msg: e.message}))
+    dispatch(connectionState('error'))
+    dispatch(socketError(e.message))
   }
 
   socket.onclose = e => {
     dispatch(connectionState('closed'))
   }
 }
+
+export const statusSelector = ({ websocket }) => websocket.status
+export const errorSelector = ({ websocket }) => websocket.error
 
 export default websocketSlice.reducer
