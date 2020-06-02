@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { init } from '../classState/studentsSlice'
+import { init, syncBehaviour } from '../classState/studentsSlice'
 
 export const websocketSlice = createSlice({
   name: 'websocket',
@@ -25,15 +25,19 @@ export const requestBootstrapping = () => {
   socket.send(toSocketAction({ type: 'bootstrap' }))
 }
 
+const messageHandlers = dispatch => ({
+  bootstrap: ({ students }) => dispatch(init(students)),
+  behave: ({ student, behaviour }) => dispatch(syncBehaviour({ id: student, behaviour }))
+})
+
 const handleMessage = (action, dispatch) => {
-  switch (action.type) {
-    case 'bootstrap':
-      dispatch(init(action.students))
-      break;
-    default:
-      dispatch(socketError('Unbekannter Aktionstyp ' + action.type))
-      dispatch(connectionState('warning'))
-      break;
+  const handler = messageHandlers(dispatch)[action.type]
+
+  if (handler) {
+    handler(action.payload)
+  } else {
+    dispatch(socketError('Unbekannter Aktionstyp ' + action.type))
+    dispatch(connectionState('warning'))
   }
 }
 

@@ -36,9 +36,9 @@ public class SocketServer : WebSocketBehavior
         handler = seh;
     }
 
-    public void Emit(JsonData data)
+    public void Emit(RequestJson data)
     {
-        Send(JsonUtility.ToJson(data));
+        Send(data.ToJson());
     }
 
     protected override void OnOpen()

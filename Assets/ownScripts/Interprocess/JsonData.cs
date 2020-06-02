@@ -2,13 +2,11 @@
 using UnityEngine;
 
 /// <summary>
-/// Type ceiling for JSON data
+/// Type ceiling for JSON data // TODO maybe as interface?
 /// </summary>
 [Serializable]
 public class JsonData {
-    //public string type = "";
-
-    public string ToJson()
+    public virtual string ToJson()
     {
         return JsonUtility.ToJson(this);
     }

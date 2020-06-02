@@ -20,7 +20,14 @@ public class SocketEventHandler : MonoBehaviour
         socket = SocketServer.HostServer(SocketHost, SocketPort, SocketPath);
         socket.SubscribeEventHandler(this);
 
-        RegisterHandler("bootstrap", json => socket.Emit(StudentController.ClassToJson()));
+        RegisterHandler(
+            "bootstrap",
+            json => socket.Emit(new RequestJson("bootstrap", StudentController.ClassToJson()))
+        );
+        RegisterHandler(
+            "behave",
+            json => { Debug.Log("TODO: Implement listener for \"behave\"!"); }
+        );
     }
 
     public void RegisterHandler(string key, Handler handler)
