@@ -11,6 +11,7 @@ public class SocketServer : WebSocketBehavior
 
     protected override void OnMessage(MessageEventArgs e)
     {
+        Debug.Log("[socket] Msg: " + e.Data);
         char[] sep = { ';' }; // ??? why can't you just be normal C#
         string[] action = e.Data.Split(sep, 2);
         handler.EnqueueEvent(action[0], action[1]);

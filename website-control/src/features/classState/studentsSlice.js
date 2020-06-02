@@ -5,23 +5,23 @@ export const studentsSlice = createSlice({
   initialState: [],
   reducers: {
     init: (state, action) => {
-      state = action.payload
+      return action.payload
     },
     toggle: (state, action) => {
-      state = state.map(
+      return state.map(
         s => action.payload === s.id ? { ...s, selected: !s.selected } : s
       )
     },
     selectAll: (state, action) => {
-      state = state.map(s => ({ ...s, selected: action.payload }))
+      return state.map(s => ({ ...s, selected: action.payload }))
     },
     triggerBehaviour: (state, action) => {
-      state = state.map(
+      return state.map(
         s => s.selected ? { ...s, behaviour: action.payload, selected: false } : s
       )
     },
     syncBehaviour: (state, action) => {
-      state = state.map(
+      return state.map(
         s => s.id === action.payload.id ? { ...s, behaviour: action.payload.behaviour } : s
       )
     }

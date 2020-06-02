@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { init } from '../classState/studentsSlice'
 
 export const websocketSlice = createSlice({
   name: 'websocket',
@@ -7,44 +8,49 @@ export const websocketSlice = createSlice({
     error: ''
   },
   reducers: {
-    connectionState: (state, action) => { state.connected = action.payload },
-    socketError: (state, action) => { state.error = action.payload }
+    connectionState: (state, action) => ({ ...state, status: action.payload }),
+    socketError: (state, action) => ({ ...state, error: action.payload })
   }
 })
 
 export const { connectionState, socketError } = websocketSlice.actions
 
-let socket
-
 export const toSocketAction = action =>
   `${action.type};${JSON.stringify({ ...action, type: undefined })}`
 
-export const requestBootstrapping = () => dispatch => {
+let socket
+
+export const requestBootstrapping = () => {
+  console.log("[socket] Requesing to bootstrap classroom.")
   socket.send(toSocketAction({ type: 'bootstrap' }))
 }
 
-const handleMessage = {
-
+const handleMessage = (action, dispatch) => {
+  switch (action.type) {
+    case 'bootstrap':
+      dispatch(init(action.students.map(s => JSON.parse(s))))
+      break;
+    default:
+      dispatch(socketError('Unbekannter Aktionstyp ' + action.type))
+      dispatch(connectionState('warning'))
+      break;
+  }
 }
 
 export const initSocket = () => dispatch => {
-  socket = new WebSocket("ws://localhost:12000/SockServer")
+  if (socket) return // Don't run this twice
+
+  socket = new WebSocket("ws://localhost:10000/SockServer")
 
   socket.onopen = e => {
+    console.log("[socket] Connection established!")
     dispatch(connectionState('connected'))
-    requestBootstrapping()(dispatch)
+    requestBootstrapping()
   }
 
   socket.onmessage = e => {
-    dispatch(connectionState('connected'))
     const action = JSON.parse(e.data)
-    const fn = handleMessage[action.type]
-    if (fn) {
-      fn(action, dispatch)
-    } else {
-      dispatch(socketError('Unbekannter Aktionstyp ' + action.type))
-      dispatch(connectionState('warning'))
-    }
+    handleMessage(action, dispatch)
   }
 
   socket.onerror = e => {
