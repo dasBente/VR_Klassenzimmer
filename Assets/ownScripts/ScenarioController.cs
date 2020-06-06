@@ -101,29 +101,18 @@ public class ScenarioController : MonoBehaviour
         }
     }
 
-    void DisruptAll(string disruption)
-    {
-        // TODO more elegantly? I.e. use list/array of components?
-        foreach (GameObject student in GameObject.FindGameObjectsWithTag("Student"))
-        {
-            student.GetComponent<DisruptanceController>().DisruptClass(disruption);
-        }
-    }
-
     IEnumerator TriggerDisruption(string[] dataRow)
     {
-        int timeInS = 0;
-        int.TryParse(dataRow[1], out timeInS);
+        int.TryParse(dataRow[1], out int timeInS);
 
         yield return new WaitForSeconds(timeInS);
         if (dataRow[2] == "all")
         {
-            DisruptAll(dataRow[3]);
+            classController.DisruptClass(dataRow[3]);
         }
         else
         {
-            classController.PlaceDict[dataRow[2]]
-                .GetComponent<DisruptanceController>().DisruptClass(dataRow[3]);
+            classController.DisruptClass(dataRow[2], dataRow[3]); // FIXME currently useless because of how students are assigned ids
         }
     }
 }

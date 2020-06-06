@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class Disruption
 {
-    public int[] students;
+    public string[] students;
     public string behaviour;
 }

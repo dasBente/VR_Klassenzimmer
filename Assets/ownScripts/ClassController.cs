@@ -4,34 +4,46 @@ using UnityEngine;
 
 public class ClassController : MonoBehaviour
 {
-    private GameObject[] students;
-
-    public Dictionary<string, GameObject> PlaceDict;
+    public Dictionary<string, DisruptanceController> Students;
 
     void Start()
     {
-        students = GameObject.FindGameObjectsWithTag("Student");
+        Students = new Dictionary<string, DisruptanceController>();
+        SocketEventHandler handler = GetComponent<SocketEventHandler>();
 
-        PlaceDict = new Dictionary<string, GameObject>();
-
-        int i = 2;
-        foreach (GameObject s in students) // TODO just use students instead or something like that
+        int i = 0;
+        foreach (GameObject s in GameObject.FindGameObjectsWithTag("Student"))
         {
-            PlaceDict[string.Format("{0:D2}{1}", i / 2, i % 2 == 0 ? 'L' : 'R')] = s;
+            DisruptanceController dc = s.GetComponent<DisruptanceController>();
+            StudentController sc = s.GetComponent<StudentController>();
+            sc.Id = "" + i; // I hate this, but it should work instead of using hash as ID
+            dc.RegisterHandler(handler);
+            Students.Add(sc.Id, dc);
             i++;
         }
-
-        ToggleStudents(
-            MenuDataHolder.StudentCount != 0 ? MenuDataHolder.StudentCount : students.Length
-        );
     }
 
-    private void ToggleStudents(int n)
+    public void DisruptClass(string behaviour)
     {
-        foreach (GameObject student in students)
-        {
-            student.SetActive(n > 0);
-            n--;
-        }
+        foreach (string id in Students.Keys) DisruptClass(id, behaviour);
+    }
+
+    public void DisruptClass(Disruption d)
+    {
+        DisruptClass(d.students, d.behaviour);
+    }
+
+    public void DisruptClass(string[] ids, string behaviour)
+    {
+        foreach (string id in ids) DisruptClass(id, behaviour);
+    }
+
+    public void DisruptClass(string studentId, string behaviour)
+    {
+        DisruptanceController dc;
+        if (!Students.TryGetValue(studentId, out dc))
+            throw new KeyNotFoundException("No student registered for key " + studentId);
+
+        dc.DisruptClass(behaviour);
     }
 }

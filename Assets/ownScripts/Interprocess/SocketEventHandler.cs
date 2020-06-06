@@ -19,15 +19,11 @@ public class SocketEventHandler : MonoBehaviour
     {
         socket = SocketServer.HostServer(SocketHost, SocketPort, SocketPath);
         socket.SubscribeEventHandler(this);
+    }
 
-        RegisterHandler(
-            "bootstrap",
-            json => socket.Emit(new RequestJson("bootstrap", StudentController.ClassToJson()))
-        );
-        RegisterHandler(
-            "behave",
-            json => { Debug.Log("TODO: Implement listener for \"behave\"!"); }
-        );
+    public void Respond(string type, JsonData response)
+    {
+        socket.Emit(new RequestJson(type, response));
     }
 
     public void RegisterHandler(string key, Handler handler)
@@ -58,5 +54,10 @@ public class SocketEventHandler : MonoBehaviour
 
             h(s.Data);
         }
+    }
+
+    private void Update()
+    {
+        ProcessEvents(); // TODO constrain execution somehow?
     }
 }

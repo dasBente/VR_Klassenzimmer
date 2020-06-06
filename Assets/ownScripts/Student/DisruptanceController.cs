@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class DisruptanceController : MonoBehaviour
 {
-    private bool isDisrupting = false;
-    private float timeSinceLastDisruption = 0f;
-    private float chanceToMisbehave = 0.5f;
-    private float nextBlink;
     private string lastGoodBehaviour = "breathing";
     private bool sitsLeft = false;
 
@@ -16,19 +12,22 @@ public class DisruptanceController : MonoBehaviour
     private LookAt lookat;
     private StudentController sc;
 
-    private Collider interventionTrigger;
+    private SocketEventHandler handler;
 
     private void Start()
     {
         sc = GetComponent<StudentController>();
         animator = GetComponent<Animator>();
         lookat = GetComponent<LookAt>();
-        nextBlink = Random.Range(5, 15);
     }
 
-    void Update()
+    /// <summary>
+    /// Registers socket event handler for communication purposes.
+    /// </summary>
+    /// <param name="handler">Socket event handler instance</param>
+    public void RegisterHandler(SocketEventHandler handler)
     {
-        
+        this.handler = handler;
     }
 
     /// <summary>
@@ -38,6 +37,7 @@ public class DisruptanceController : MonoBehaviour
     public void SetConversationPartner(Transform partner)
     {
         conversationPartner = partner;
+
         // This should work? TODO verify
         sitsLeft = Vector3.Dot(transform.right, partner.position - transform.position) < 0;
     }
@@ -48,8 +48,6 @@ public class DisruptanceController : MonoBehaviour
     /// <param name="disruption">identifier of the respective disturbance</param>
     public void DisruptClass(string disruption)
     {
-        chanceToMisbehave = 0f;
-        timeSinceLastDisruption = 0f;
         sc.Behaviour = disruption;
 
         switch (disruption)
@@ -57,7 +55,6 @@ public class DisruptanceController : MonoBehaviour
             case "breathing":
             case "writing":
                 lastGoodBehaviour = disruption;
-                isDisrupting = false;
                 lookat.Active = true;
                 break;
             case "chatting":
@@ -75,10 +72,10 @@ public class DisruptanceController : MonoBehaviour
 
     public void TriggerLastGoodBehaviour()
     {
-        isDisrupting = false;
         MenuDataHolder.MisbehaviourSolved++;
         lookat.Active = true;
         animator.SetTrigger(lastGoodBehaviour);
+        handler.Respond("behave", new Behave(sc.Id, lastGoodBehaviour));
     }
 
     void OnTriggerEnter(Collider other)

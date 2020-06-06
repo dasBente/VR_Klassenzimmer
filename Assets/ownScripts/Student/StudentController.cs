@@ -19,7 +19,6 @@ public class StudentController : MonoBehaviour
     private void Start()
     {
         Behaviour = "idle";
-        Id = this.GetHashCode().ToString();
     }
 
     /// <summary>
@@ -64,6 +63,7 @@ public class StudentController : MonoBehaviour
 
     public static BootstrapResponse ClassToJson()
     {
+        Debug.Log("Hallo");
         var students = GameObject.FindGameObjectsWithTag("Student");
         var res = new Student[students.Length];
         var i = 0;

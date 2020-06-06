@@ -38,7 +38,9 @@ public class SocketServer : WebSocketBehavior
 
     public void Emit(RequestJson data)
     {
-        Send(data.ToJson());
+        string msg = data.ToJson();
+        Debug.Log("[->] " + msg);
+        Send(msg);
     }
 
     protected override void OnOpen()

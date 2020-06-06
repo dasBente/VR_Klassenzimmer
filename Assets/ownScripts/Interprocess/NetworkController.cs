@@ -28,96 +28,17 @@ public class NetworkController : MonoBehaviour {
         classController = GetComponent<ClassController>();
         handler = GetComponent<SocketEventHandler>();
 
-        initSocketServer();
-    }
-
-    private void initSocketServer()
-    {
-      
-    }
-
-    private void StartListeining()
-    {
-            /*
-        Dictionary<string, string> map;
-        Byte[] buffer = new Byte[256];
-        while (true)
-        {
-            try
-            {
-                client = Server.AcceptSocket();
-                if (client.Connected && !distortionRequested && !atmosphereChange)
-                {
-                    client.Receive(buffer);
-                    map = TransformHTTPToMap(buffer);
-                    client.Send(new Byte[4]);
-                    string studentPlace;
-                    if (map.TryGetValue("student", out studentPlace))
-                    {
-                        distortionRequested = true;
-                        studentPlacesToAnimate = new string[studentPlace.Length / 3];
-                        for (int i = 0; i < studentPlacesToAnimate.Length; i++)
-                        {
-                            studentPlacesToAnimate[i] = studentPlace.Substring(i * 3, 3);
-                        }
-                        stoerung = map["stoerung"];
-                    }
-                    else
-                    {
-                        atmosphereChange = true;
-                        map.TryGetValue("noise", out stoerung);
-                        Debug.Log("noise" + stoerung);
-                    }
-                    client.Shutdown(SocketShutdown.Both);
-                    client.Close();
-                }
-            }
-            catch(NullReferenceException)
-            {
-                Debug.Log("Server already closed");
-            }
-            
-        }*/
-        
-    }
-
-    void OnAmbientChange()
-    {
-        AmbientController.SoundLevel(stoerung == "up");
-    }
-
-    void OnDisturbAll()
-    {
-        foreach (GameObject student in GameObject.FindGameObjectsWithTag("Student"))
-        {
-            student.GetComponent<DisruptanceController>().DisruptClass(stoerung);
-        }
-    }
-
-    void OnDisturbSome()
-    {
-        foreach (string placeToAnimate in studentPlacesToAnimate)
-        {
-            Debug.Log(placeToAnimate);
-            classController.PlaceDict[placeToAnimate].GetComponent<DisruptanceController>().DisruptClass(stoerung);
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        handler.ProcessEvents();
-
-        if (distortionRequested)
-        {
-            distortionRequested = false;
-            if (studentPlacesToAnimate[0] == "all") OnDisturbAll();
-            else OnDisturbSome();
-        }
-        if (atmosphereChange)
-        {
-            atmosphereChange = false;
-            OnAmbientChange();
-        }
+        handler.RegisterHandler(
+            "bootstrap",
+            json => handler.Respond("bootstrap", StudentController.ClassToJson())
+        );
+        handler.RegisterHandler(
+            "behave",
+            json => classController.DisruptClass(JsonUtility.FromJson<Disruption>(json))
+        );
+        handler.RegisterHandler(
+            "ambientChange",
+            json => AmbientController.SoundLevel(JsonUtility.FromJson<AmbientChange>(json))
+        );
     }
 }

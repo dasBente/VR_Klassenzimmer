@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
+import { emit } from '../websocket/websocketSlice'
 
 export const studentsSlice = createSlice({
   name: 'students',
@@ -16,6 +17,11 @@ export const studentsSlice = createSlice({
       return state.map(s => ({ ...s, selected: action.payload }))
     },
     triggerBehaviour: (state, action) => {
+      emit({ // This seems a bit iffy to put into the reducer, but whatever
+        type: 'behave',
+        students: state.filter(s => s.selected).map(s => s.id), behaviour: action.payload
+      })
+
       return state.map(
         s => s.selected ? { ...s, behaviour: action.payload, selected: false } : s
       )
@@ -29,13 +35,6 @@ export const studentsSlice = createSlice({
 })
 
 export const { init, toggle, selectAll, triggerBehaviour, syncBehaviour } = studentsSlice.actions;
-
-export const triggerBehaviourAsync = behaviour => dispatch => {
-  // TODO: Use websocket for this
-  //const students = getState().students.filter(s => s.selected)
-
-  dispatch(triggerBehaviour(behaviour))
-}
 
 export const selectStudents = ({ students }) => students
 

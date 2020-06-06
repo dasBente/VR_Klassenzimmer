@@ -16,19 +16,17 @@ public class AmbientSound : MonoBehaviour {
         source.Play();
     }
 
-    public void SoundLevel(bool up)
+    public void SoundLevel(AmbientChange ac)
     {
+        if (ac.level < 0 || ac.level > NoiseLevels.Length)
+            throw new ArgumentOutOfRangeException("A audio leven between 0 and " + NoiseLevels.Length + " is expected");
+
         string currClip = source.clip.name;
-
-        CurrentNoiseLevel += up ? 1 : -1;
-        if (CurrentNoiseLevel < 0)
-            CurrentNoiseLevel = 0;
-        else if (CurrentNoiseLevel >= NoiseLevels.Length)
-            CurrentNoiseLevel = NoiseLevels.Length - 1;
-
-        Debug.Log("Audio Level: " + CurrentNoiseLevel);
+        CurrentNoiseLevel = ac.level;
         source.volume = NoiseLevels[CurrentNoiseLevel];
         source.clip = NoiseLevelAudio[CurrentNoiseLevel];
+
+        // Only play a clip from the start if it was actually changed (avoid obvious cutoff/looping)
         if (source.clip.name != currClip) source.Play();
     }
 }

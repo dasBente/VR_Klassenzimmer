@@ -15,14 +15,18 @@ export const websocketSlice = createSlice({
 
 export const { connectionState, socketError } = websocketSlice.actions
 
-export const toSocketAction = action =>
+const toSocketAction = action =>
   `${action.type};${JSON.stringify({ ...action, type: undefined })}`
 
 let socket
 
+export const emit = action => {
+  console.log(`[socket] emit action of type ${action.type}`)
+  socket.send(toSocketAction(action))
+}
+
 export const requestBootstrapping = () => {
-  console.log("[socket] Requesing to bootstrap classroom.")
-  socket.send(toSocketAction({ type: 'bootstrap' }))
+  emit({ type: 'bootstrap' })
 }
 
 const messageHandlers = dispatch => ({
