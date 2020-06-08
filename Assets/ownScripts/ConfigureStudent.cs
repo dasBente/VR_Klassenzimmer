@@ -51,8 +51,7 @@ public class ConfigureStudent : MonoBehaviour
             //Add all scripts to students to give them kinda individual characters
                 student.AddComponent(typeof(MixamoAttechment));
                 student.AddComponent(typeof(playSound));
-                student.AddComponent(typeof(thrower));
-                student.AddComponent(typeof(breathingStudent));
+                student.AddComponent(typeof(ThrowObject));
                 student.AddComponent(typeof(IKControl));
                 BoxCollider BC = student.AddComponent(typeof(BoxCollider)) as BoxCollider;
                 BC.center = new Vector3(0.0022482f, 0.337685f, 0.0786477f);

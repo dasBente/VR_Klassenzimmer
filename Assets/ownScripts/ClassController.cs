@@ -4,21 +4,22 @@ using UnityEngine;
 
 public class ClassController : MonoBehaviour
 {
-    public Dictionary<string, DisruptanceController> Students;
+    public Dictionary<string, BehaviourController> Students;
 
     void Start()
     {
-        Students = new Dictionary<string, DisruptanceController>();
+        Students = new Dictionary<string, BehaviourController>();
         SocketEventHandler handler = GetComponent<SocketEventHandler>();
+
+        BehaviourController.Handler = handler;
 
         int i = 0;
         foreach (GameObject s in GameObject.FindGameObjectsWithTag("Student"))
         {
-            DisruptanceController dc = s.GetComponent<DisruptanceController>();
+            BehaviourController bc = s.GetComponent<BehaviourController>();
             StudentController sc = s.GetComponent<StudentController>();
             sc.Id = "" + i; // I hate this, but it should work instead of using hash as ID
-            dc.RegisterHandler(handler);
-            Students.Add(sc.Id, dc);
+            Students.Add(sc.Id, bc);
             i++;
         }
     }
@@ -40,7 +41,7 @@ public class ClassController : MonoBehaviour
 
     public void DisruptClass(string studentId, string behaviour)
     {
-        DisruptanceController dc;
+        BehaviourController dc;
         if (!Students.TryGetValue(studentId, out dc))
             throw new KeyNotFoundException("No student registered for key " + studentId);
 

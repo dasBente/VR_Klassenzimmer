@@ -37,13 +37,12 @@ public class StudentController : MonoBehaviour
 
         StudentController sc = student.AddComponent<StudentController>();
 
-        student.AddComponent(typeof(DisruptanceController));
+        student.AddComponent(typeof(BehaviourController));
 
         //Add all scripts to students to give them kinda individual characters
         student.AddComponent(typeof(MixamoAttechment));
         student.AddComponent(typeof(playSound));
-        student.AddComponent(typeof(thrower));
-        student.AddComponent(typeof(breathingStudent));
+        student.AddComponent(typeof(ThrowObject));
         student.AddComponent(typeof(LookAt));
 
         SphereCollider col = student.AddComponent<SphereCollider>();

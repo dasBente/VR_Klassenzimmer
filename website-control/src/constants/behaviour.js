@@ -1,7 +1,8 @@
-export const goodBehaviours = ['idle', 'writing', 'raiseArm', 'askQuestion']
+export const goodBehaviours = ['idle', 'writing', 'raiseArm', 'question']
 
 export const badBehaviours = [
-  'eating', 'drinking', 'lethargic', 'playing', 'starring', 'hitting', 'throwing'
+  'eatApple', 'drinking', 'letargic_starring', 'play with accesoires', 'starring', 'hitting',
+  'throwing', 'chatting', 'throwPaperBall'
 ]
 
 const NEUTRAL = 'light'
@@ -11,14 +12,15 @@ const GOOD = 'success'
 
 export const behaviourColors = {
   idle: NEUTRAL,
-  eating: WARNING,
+  eatApple: WARNING,
   drinking: WARNING,
-  lethargic: WARNING,
-  playing: WARNING,
+  letargic_starring: WARNING,
+  'play with accesoires': WARNING,
   starring: WARNING,
   hitting: DANGER,
-  throwing: DANGER,
+  throwPaperBall: DANGER,
+  chatting: DANGER,
   writing: GOOD,
   raiseArm: GOOD, // TODO another category for students requesting for teachers attention?
-  askQuestion: GOOD
+  question: GOOD
 }

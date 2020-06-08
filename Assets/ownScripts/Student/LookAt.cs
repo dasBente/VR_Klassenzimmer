@@ -11,12 +11,12 @@ public class LookAt : MonoBehaviour
 
     public static Transform Target { get; set; }
 
-    private DisruptanceController attributes;
+    private BehaviourController attributes;
 
     private void Start()
     {
         Animator = GetComponent<Animator>();
-        attributes = GetComponent<DisruptanceController>();
+        attributes = GetComponent<BehaviourController>();
 
         if (Target == null)
             Target = GameObject.FindGameObjectWithTag("Teacher").GetComponent<TeacherController>().LookAtTarget;

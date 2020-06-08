@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
 import { behaviourColors } from '../../constants/behaviour'
+import { toggle } from './studentsSlice'
 
 const StudentState = ({ student: { id, name, behaviour, selected } }) => {
-  const toggle = () => null;
+  const dispatch = useDispatch()
 
   return (
     <div className='mb-2'>
@@ -12,7 +14,7 @@ const StudentState = ({ student: { id, name, behaviour, selected } }) => {
           <button
             className={`font-weight-bolder btn btn-${!selected ? 'outline-' : ''}primary`}
             type='button'
-            onClick={() => toggle(id)}
+            onClick={() => dispatch(toggle(id))}
           >
             {name}
           </button>

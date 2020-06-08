@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DisruptanceController : MonoBehaviour
+public class BehaviourController : MonoBehaviour
 {
-    private string lastGoodBehaviour = "breathing";
+    private string intendedBehaviour = "breathing";
     private bool sitsLeft = false;
 
     private Transform conversationPartner;
@@ -12,22 +12,13 @@ public class DisruptanceController : MonoBehaviour
     private LookAt lookat;
     private StudentController sc;
 
-    private SocketEventHandler handler;
+    public static SocketEventHandler Handler;
 
     private void Start()
     {
         sc = GetComponent<StudentController>();
         animator = GetComponent<Animator>();
         lookat = GetComponent<LookAt>();
-    }
-
-    /// <summary>
-    /// Registers socket event handler for communication purposes.
-    /// </summary>
-    /// <param name="handler">Socket event handler instance</param>
-    public void RegisterHandler(SocketEventHandler handler)
-    {
-        this.handler = handler;
     }
 
     /// <summary>
@@ -54,7 +45,7 @@ public class DisruptanceController : MonoBehaviour
         {
             case "breathing":
             case "writing":
-                lastGoodBehaviour = disruption;
+                intendedBehaviour = disruption;
                 lookat.Active = true;
                 break;
             case "chatting":
@@ -70,19 +61,14 @@ public class DisruptanceController : MonoBehaviour
         animator.SetTrigger(disruption);
     }
 
-    public void TriggerLastGoodBehaviour()
-    {
-        MenuDataHolder.MisbehaviourSolved++;
-        lookat.Active = true;
-        animator.SetTrigger(lastGoodBehaviour);
-        handler.Respond("behave", new Behave(sc.Id, lastGoodBehaviour));
-    }
-
     void OnTriggerEnter(Collider other)
     {
         if (MenuDataHolder.isAutomaticIntervention)
         {
-            TriggerLastGoodBehaviour();
+            MenuDataHolder.MisbehaviourSolved++;
+            lookat.Active = true;
+            animator.SetTrigger(intendedBehaviour);
+            Handler.Respond("behave", new Behave(sc.Id, intendedBehaviour));
         }
     }
 }
