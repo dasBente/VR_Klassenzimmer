@@ -1,8 +1,7 @@
 export const goodBehaviours = ['idle', 'writing', 'raiseArm', 'question']
 
 export const badBehaviours = [
-  'eatApple', 'drinking', 'letargic_starring', 'play with accesoires', 'starring', 'hitting',
-  'throwing', 'chatting', 'throwPaperBall'
+  'eating', 'drinking', 'lethargic', 'playing', 'starring', 'hitting', 'throwing', 'chatting'
 ]
 
 const NEUTRAL = 'light'
@@ -12,13 +11,13 @@ const GOOD = 'success'
 
 export const behaviourColors = {
   idle: NEUTRAL,
-  eatApple: WARNING,
+  eating: WARNING,
   drinking: WARNING,
-  letargic_starring: WARNING,
-  'play with accesoires': WARNING,
+  lethargic: WARNING,
+  playing: WARNING,
   starring: WARNING,
   hitting: DANGER,
-  throwPaperBall: DANGER,
+  throwing: DANGER,
   chatting: DANGER,
   writing: GOOD,
   raiseArm: GOOD, // TODO another category for students requesting for teachers attention?

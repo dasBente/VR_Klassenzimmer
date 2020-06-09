@@ -14,7 +14,7 @@ public class SocketServer : WebSocketBehavior
         Debug.Log("[socket] Msg: " + e.Data);
         char[] sep = { ';' }; // ??? why can't you just be normal C#
         string[] action = e.Data.Split(sep, 2);
-        handler.EnqueueEvent(action[0], action[1]);
+        handler.Events.Enqueue(new SocketEvent(action[0], action[1]));
     }
 
     public static SocketServer HostServer(string host, int port, string servicePath)

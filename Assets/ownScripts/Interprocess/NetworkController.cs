@@ -28,15 +28,15 @@ public class NetworkController : MonoBehaviour {
         classController = GetComponent<ClassController>();
         handler = GetComponent<SocketEventHandler>();
 
-        handler.RegisterHandler(
+        handler.Events.RegisterCallback(
             "bootstrap",
             json => handler.Respond("bootstrap", StudentController.ClassToJson())
         );
-        handler.RegisterHandler(
+        handler.Events.RegisterCallback(
             "behave",
             json => classController.DisruptClass(JsonUtility.FromJson<Disruption>(json))
         );
-        handler.RegisterHandler(
+        handler.Events.RegisterCallback(
             "ambientChange",
             json => AmbientController.SoundLevel(JsonUtility.FromJson<AmbientChange>(json))
         );

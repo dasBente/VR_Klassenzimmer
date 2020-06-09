@@ -1,16 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BehaviourController : MonoBehaviour
 {
-    private string intendedBehaviour = "breathing";
-    private bool sitsLeft = false;
+    private EventQueue<string, string, string> queue;
 
     private Transform conversationPartner;
     private Animator animator;
     private LookAt lookat;
     private StudentController sc;
+    private string expectedBehaviour;
 
     public static SocketEventHandler Handler;
 
@@ -19,6 +20,32 @@ public class BehaviourController : MonoBehaviour
         sc = GetComponent<StudentController>();
         animator = GetComponent<Animator>();
         lookat = GetComponent<LookAt>();
+
+        queue = new EventQueue<string, string, string>(s => s, s => s);
+
+        queue.RegisterCallback("idle", GoodBehaviour(0));
+        queue.RegisterCallback("chatting", _ => animator.SetTrigger("Chatting"));
+        queue.RegisterCallback("hitting", _ => animator.SetTrigger("Hitting"));
+        queue.RegisterCallback("eating", _ => animator.SetTrigger("Eating"));
+        queue.RegisterCallback("drinking", _ => animator.SetTrigger("Drinking"));
+        queue.RegisterCallback("writing", GoodBehaviour(1));
+        queue.RegisterCallback("question", GoodBehaviour(2));
+        queue.RegisterCallback("raiseHand", GoodBehaviour(3));
+        queue.RegisterCallback("behave", _ => animator.SetTrigger("Idle"));
+        queue.RegisterCallback("throwing", _ => animator.SetTrigger("Throwing"));
+        queue.RegisterCallback("starring", _ => animator.SetTrigger("Starring"));
+        queue.RegisterCallback("lethargic", _ => animator.SetTrigger("Lethargic"));
+
+    }
+
+    private EventQueue<string, string, string>.Handler GoodBehaviour(int id)
+    {
+        return s =>
+        {
+            animator.SetInteger("GoodBehaviour", id);
+            animator.SetTrigger("Idle");
+            expectedBehaviour = s;
+        };
     }
 
     /// <summary>
@@ -28,9 +55,8 @@ public class BehaviourController : MonoBehaviour
     public void SetConversationPartner(Transform partner)
     {
         conversationPartner = partner;
-
-        // This should work? TODO verify
-        sitsLeft = Vector3.Dot(transform.right, partner.position - transform.position) < 0;
+        animator.SetBool("Front", transform.position.z < conversationPartner.position.z + 2f);
+        animator.SetBool("Left", Vector3.Dot(transform.right, partner.position - transform.position) > 0);
     }
 
     /// <summary>
@@ -39,36 +65,23 @@ public class BehaviourController : MonoBehaviour
     /// <param name="disruption">identifier of the respective disturbance</param>
     public void DisruptClass(string disruption)
     {
-        sc.Behaviour = disruption;
+        queue.Enqueue(disruption);
+        queue.ProcessAll();
+    }
 
-        switch (disruption)
-        {
-            case "breathing":
-            case "writing":
-                intendedBehaviour = disruption;
-                lookat.Active = true;
-                break;
-            case "chatting":
-                if (Mathf.Abs(transform.position.x - conversationPartner.position.x) < 1.5)
-                    disruption += transform.position.z < conversationPartner.position.z + 2f ? "For" : "Back";
-                disruption += sitsLeft ? "L" : "R";
-                break;
-            case "hit":
-                disruption += sitsLeft ? "L" : "R";
-                break;
-        }
-
-        animator.SetTrigger(disruption);
+    public void DisruptClass(string disruption, JsonData response)
+    {
+        DisruptClass(disruption);
+        Handler.Respond(disruption, response);
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (MenuDataHolder.isAutomaticIntervention)
+        if (MenuDataHolder.isAutomaticIntervention) // TODO check if currently well behaved somehow
         {
             MenuDataHolder.MisbehaviourSolved++;
             lookat.Active = true;
-            animator.SetTrigger(intendedBehaviour);
-            Handler.Respond("behave", new Behave(sc.Id, intendedBehaviour));
+            DisruptClass("behave", new Behave(sc.Id, expectedBehaviour));
         }
     }
 }

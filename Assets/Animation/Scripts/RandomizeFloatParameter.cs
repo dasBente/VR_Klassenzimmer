@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleState : StateMachineBehaviour
+public class RandomizeFloatParameter : StateMachineBehaviour
 {
+    public string Parameter;
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        var delay = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length * Random.value;
-        animator.Play("breath", 0, delay);
+    {   
+        animator.SetFloat(Parameter, Random.value);
     }
 }
