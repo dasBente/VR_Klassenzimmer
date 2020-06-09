@@ -2155,7 +2155,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5076636089956444748}
-  - component: {fileID: 5076636089956444789}
+  - component: {fileID: 5286495115412116843}
   m_Layer: 9
   m_Name: Female2
   m_TagString: Student
@@ -2170,7 +2170,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5076636089956444749}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0.00000028088027}
   m_LocalPosition: {x: -0.007, y: 0.442, z: -0.221}
   m_LocalScale: {x: 1.8, y: 1.8000002, z: 1.8}
   m_Children:
@@ -2184,8 +2184,8 @@ Transform:
   - {fileID: 5076636089422821094}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &5076636089956444789
+  m_LocalEulerAnglesHint: {x: 0, y: -179.99998, z: 0}
+--- !u!95 &5286495115412116843
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0

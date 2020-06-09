@@ -58,16 +58,15 @@ public class RandomizedStudents : StudentPlacer
     /// </summary>
     /// <param name="chair">A attachment point to parent the student under.</param>
     /// <returns>Newly generated student instance.</returns>
-    public override GameObject NextStudent(Transform chair)
+    public override void InitializeStudent(StudentController sc)
     {
-        bool male = Random.Range(0.0f, 1.0f) > ChanceOfFemale;
+        bool male = Random.value > ChanceOfFemale;
         GameObject[] models = male ? MaleModels : FemaleModels;
         string[] names = male ? MaleNames : FemaleNames;
 
-        GameObject model = models[(int)Random.Range(0, models.Length - 1)];
-        GameObject student = StudentController.GenerateStudentModel(model, chair);
-        student.GetComponent<StudentController>().Name = names[(int)Random.Range(0, names.Length - 1)];
-        return student;
+        sc.IsMale = male;
+        sc.Model = models[(int)Random.Range(0, models.Length - 1)];
+        sc.Name = names[Random.Range(0, names.Length - 1)];
     }
 
     private string[] ReadLines(string fileName)

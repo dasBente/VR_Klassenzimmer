@@ -30,7 +30,7 @@ public class BehaviourController : MonoBehaviour
         queue.RegisterCallback("drinking", _ => animator.SetTrigger("Drinking"));
         queue.RegisterCallback("writing", GoodBehaviour(1));
         queue.RegisterCallback("question", GoodBehaviour(2));
-        queue.RegisterCallback("raiseHand", GoodBehaviour(3));
+        queue.RegisterCallback("raiseArm", GoodBehaviour(3));
         queue.RegisterCallback("behave", _ => animator.SetTrigger("Idle"));
         queue.RegisterCallback("throwing", _ => animator.SetTrigger("Throwing"));
         queue.RegisterCallback("starring", _ => animator.SetTrigger("Starring"));

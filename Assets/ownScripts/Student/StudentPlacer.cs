@@ -10,9 +10,9 @@ public abstract class StudentPlacer : MonoBehaviour
     /// <summary>
     /// Generates a new student through some means and places them.
     /// </summary>
-    /// <param name="chair">Attachment to parent the student under.</param>
+    /// <param name="sc">Controller of the respective student.</param>
     /// <returns>Newly generated student instance.</returns>
-    public abstract GameObject NextStudent(Transform chair);
+    public abstract void InitializeStudent(StudentController sc);
 
     /// <summary>
     /// Used by editor to update component-specific information.

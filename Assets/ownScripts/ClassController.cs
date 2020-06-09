@@ -13,14 +13,11 @@ public class ClassController : MonoBehaviour
 
         BehaviourController.Handler = handler;
 
-        int i = 0;
         foreach (GameObject s in GameObject.FindGameObjectsWithTag("Student"))
         {
             BehaviourController bc = s.GetComponent<BehaviourController>();
             StudentController sc = s.GetComponent<StudentController>();
-            sc.Id = "" + i; // I hate this, but it should work instead of using hash as ID
             Students.Add(sc.Id, bc);
-            i++;
         }
     }
 

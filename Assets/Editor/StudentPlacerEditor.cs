@@ -15,20 +15,25 @@ public class StudentPlacerEditor : Editor
 
         if (GUILayout.Button("Place Students"))
         {
-            GenerateStudents();
+            InitializeStudents();
         }
     }
 
     /// <summary>
     /// Generates a student for every attachment point.
     /// </summary>
-    public void GenerateStudents()
+    public void InitializeStudents()
     {
-        foreach (GameObject student in GameObject.FindGameObjectsWithTag("Student")) DestroyImmediate(student);
-
-        StudentPlacer sp = (StudentPlacer) target;
+        StudentPlacer sp = (StudentPlacer)target;
         sp.EditorUpdateHook();
+        int id = 0;
 
-        foreach (GameObject chair in GameObject.FindGameObjectsWithTag("StudentAttachmentPoint")) sp.NextStudent(chair.transform);
+        foreach (GameObject student in GameObject.FindGameObjectsWithTag("Student"))
+        {
+            StudentController sc = student.GetComponent<StudentController>();
+            sc.Id = "" + id;
+            sp.InitializeStudent(sc);
+            id++; // Numbering should always be in order of instantiation of the tables
+        }
     }
 }
