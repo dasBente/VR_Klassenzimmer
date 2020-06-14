@@ -18,7 +18,7 @@ public class BehaviourController : MonoBehaviour
     private void Start()
     {
         sc = GetComponent<StudentController>();
-        animator = GetComponent<Animator>();
+        animator = sc.Model.GetComponent<Animator>();
         lookat = GetComponent<LookAt>();
 
         queue = new EventQueue<string, string, string>(s => s, s => s);
@@ -83,5 +83,10 @@ public class BehaviourController : MonoBehaviour
             lookat.Active = true;
             DisruptClass("behave", new Behave(sc.Id, expectedBehaviour));
         }
+    }
+
+    void PlayAudio()
+    {
+        animator.GetBehaviour<PlayAudioVariation>()?.PlayAudio(sc.IsMale);
     }
 }

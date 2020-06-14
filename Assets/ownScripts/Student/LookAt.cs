@@ -13,7 +13,7 @@ public class LookAt : MonoBehaviour
 
     private void Start()
     {
-        Animator = GetComponent<Animator>();
+        Animator = transform.GetChild(0).gameObject.GetComponent<Animator>();
 
         if (Target == null)
             Target = GameObject.FindGameObjectWithTag("Teacher").GetComponent<TeacherController>().LookAtTarget;
