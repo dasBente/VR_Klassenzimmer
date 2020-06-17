@@ -1,0 +1,15 @@
+{
+  "title": "automatedPresentationHigh",
+  "description": "",
+  "seed": 1234,
+  "events": [
+    {
+      "id": 0,
+      "time": 10,
+      "action": {
+        "type": "behave",
+        "payload": { "behaviour": "eating", "students": [2]}
+      }
+    }
+  ]
+}
