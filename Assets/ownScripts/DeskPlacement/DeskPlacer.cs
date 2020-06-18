@@ -29,6 +29,8 @@ public abstract class DeskPlacer : MonoBehaviour
     private GameObject GenerateDeskAt(int index)
     {
         GameObject desk = Instantiate(DeskPrefab, transform);
+        DeskManager dm = desk.GetComponent<DeskManager>();
+        if (dm != null) dm.Id = "" + index;
         UpdateDeskTransform(index, desk.transform);
         return desk;
     }
@@ -41,7 +43,7 @@ public abstract class DeskPlacer : MonoBehaviour
     {
         for (int i = 0; i < n; i++)
         {
-            GenerateDeskAt(transform.childCount + i);
+            GenerateDeskAt(transform.childCount);
         }
     }
 

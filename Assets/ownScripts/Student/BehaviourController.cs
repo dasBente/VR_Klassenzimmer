@@ -8,8 +8,6 @@ public class BehaviourController : MonoBehaviour
     private EventQueue<string, string, string> queue;
 
     private Transform conversationPartner;
-    private Animator animator;
-    private LookAt lookat;
     private StudentController sc;
     private string expectedBehaviour;
 
@@ -18,32 +16,43 @@ public class BehaviourController : MonoBehaviour
     private void Start()
     {
         sc = GetComponent<StudentController>();
-        animator = sc.Model.GetComponent<Animator>();
-        lookat = GetComponent<LookAt>();
 
         queue = new EventQueue<string, string, string>(s => s, s => s);
 
         queue.RegisterCallback("idle", GoodBehaviour(0));
-        queue.RegisterCallback("chatting", _ => animator.SetTrigger("Chatting"));
-        queue.RegisterCallback("hitting", _ => animator.SetTrigger("Hitting"));
-        queue.RegisterCallback("eating", _ => animator.SetTrigger("Eating"));
-        queue.RegisterCallback("drinking", _ => animator.SetTrigger("Drinking"));
+        queue.RegisterCallback("chatting", Transition("Chatting", "Init Chatting"));
+        queue.RegisterCallback("hitting", Transition("Hitting", "Hitting"));
+        queue.RegisterCallback("eating", Transition("eatApple"));
+        queue.RegisterCallback("drinking", Transition("drinking"));
         queue.RegisterCallback("writing", GoodBehaviour(1));
         queue.RegisterCallback("question", GoodBehaviour(2));
         queue.RegisterCallback("raiseArm", GoodBehaviour(3));
-        queue.RegisterCallback("behave", _ => animator.SetTrigger("Idle"));
-        queue.RegisterCallback("throwing", _ => animator.SetTrigger("Throwing"));
-        queue.RegisterCallback("starring", _ => animator.SetTrigger("Starring"));
-        queue.RegisterCallback("lethargic", _ => animator.SetTrigger("Lethargic"));
+        queue.RegisterCallback("behave", Transition("Good Behaviour"));
+        queue.RegisterCallback("throwing", Transition("throwPaperBall"));
+        queue.RegisterCallback("playing", Transition("play with accessoires"));
+        queue.RegisterCallback("lethargic", Transition("letargic_starring"));
+    }
 
+    private EventQueue<string, string, string>.Handler Transition(string State)
+    {
+        return Transition("Base Layer", State);
+    }
+
+    private EventQueue<string, string, string>.Handler Transition(string Layer, string State)
+    {
+        return _ =>
+        {
+            Debug.Log("Should trigger " + State);
+            sc.StudentAnimator.CrossFade(Layer + "." + State, 0.05f);
+        };
     }
 
     private EventQueue<string, string, string>.Handler GoodBehaviour(int id)
     {
         return s =>
         {
-            animator.SetInteger("GoodBehaviour", id);
-            animator.SetTrigger("Idle");
+            sc.StudentAnimator.SetInteger("GoodBehaviour", id);
+            sc.StudentAnimator.SetTrigger("Idle");
             expectedBehaviour = s;
         };
     }
@@ -54,9 +63,10 @@ public class BehaviourController : MonoBehaviour
     /// <param name="partner">Conversation partner student object</param>
     public void SetConversationPartner(Transform partner)
     {
+        Debug.Log(partner);
         conversationPartner = partner;
-        animator.SetBool("Front", transform.position.z < conversationPartner.position.z + 2f);
-        animator.SetBool("Left", Vector3.Dot(transform.right, partner.position - transform.position) > 0);
+        sc.StudentAnimator.SetBool("Front", Vector3.Dot(transform.forward, partner.position - transform.position) > 0);
+        sc.StudentAnimator.SetBool("Left", Vector3.Dot(transform.right, partner.position - transform.position) > 0);
     }
 
     /// <summary>
@@ -80,13 +90,7 @@ public class BehaviourController : MonoBehaviour
         if (MenuDataHolder.isAutomaticIntervention) // TODO check if currently well behaved somehow
         {
             MenuDataHolder.MisbehaviourSolved++;
-            lookat.Active = true;
             DisruptClass("behave", new Behave(sc.Id, expectedBehaviour));
         }
-    }
-
-    void PlayAudio()
-    {
-        animator.GetBehaviour<PlayAudioVariation>()?.PlayAudio(sc.IsMale);
     }
 }

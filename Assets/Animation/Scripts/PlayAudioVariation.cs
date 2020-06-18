@@ -14,8 +14,10 @@ public class PlayAudioVariation : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        source = animator.gameObject.GetComponent<AudioSource>();
+        source = animator.transform.GetComponentInParent<AudioSource>();
         source.enabled = true;
+
+        animator.gameObject.GetComponent<StudentAnimationEvents>().CurrentSMB = this;
     }
 
     // Will be called from a animation event by a MonoBehaviour method
@@ -25,7 +27,6 @@ public class PlayAudioVariation : StateMachineBehaviour
         AudioClip clip = clips[Random.Range(0, clips.Length - 1)];
 
         float volume = variant ? MaleVoiceVolume : FemaleVoiceVolume;
-
         source.PlayOneShot(clip, volume);
     }
 

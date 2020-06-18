@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class DeskManager : MonoBehaviour
 {
-    public Transform LeftSlot, RightSlot;
+    public Transform LeftStudent, RightStudent;
+    public string Id;
 
     private void Start()
     {
-        BehaviourController left = LeftSlot.GetComponentInChildren<BehaviourController>(false);
-        BehaviourController right = RightSlot.GetComponentInChildren<BehaviourController>(false);
-        
-        // TODO this is a lazy solution, ideally these should refer to the partners head for look-at's
-        left.SetConversationPartner(RightSlot);
-        right.SetConversationPartner(LeftSlot);
+        LeftStudent.GetComponent<BehaviourController>().SetConversationPartner(RightStudent);
+        RightStudent.GetComponent<BehaviourController>().SetConversationPartner(LeftStudent);
+    }
+
+    public void SetStudentIds()
+    {
+        LeftStudent.GetComponent<StudentController>().Id = Id + "L";
+        RightStudent.GetComponent<StudentController>().Id = Id + "R";
     }
 }

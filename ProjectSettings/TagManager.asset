@@ -12,6 +12,7 @@ TagManager:
   - lightbulb
   - StudentAttachmentPoint
   - Teacher
+  - Desk
   layers:
   - Default
   - TransparentFX

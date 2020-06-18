@@ -35,5 +35,11 @@ public class StudentPlacerEditor : Editor
             sp.InitializeStudent(sc);
             id++; // Numbering should always be in order of instantiation of the tables
         }
+
+        id = 0;
+        foreach (GameObject desk in GameObject.FindGameObjectsWithTag("Desk"))
+        {
+            desk.GetComponent<DeskManager>().SetStudentIds();
+        }
     }
 }

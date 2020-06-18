@@ -10,8 +10,8 @@ const ClassState = () => {
 
   return (
     <div>
-      <div className='row card-columns'>
-        {students.map(s => <StudentState key={s.id} student={s} />)}
+      <div className='row row-cols-6'>
+        {students.map(s => <div className="col"><StudentState key={s.id} student={s} /></div>)}
       </div>
       <div className='row float-right'><ToggleAll /></div>
       <BehaviourControls />

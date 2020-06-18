@@ -11,6 +11,7 @@ public class ScenarioController : MonoBehaviour
     {
         classController = GetComponent<ClassController>();
         
+        /*
         if (MenuDataHolder.isExperiment)
         {
             if (MenuDataHolder.isPresentation)
@@ -83,6 +84,7 @@ public class ScenarioController : MonoBehaviour
                 }
             }
         }
+        */
     }
 
     public void LoadScenario(string path)

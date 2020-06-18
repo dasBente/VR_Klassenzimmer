@@ -11,6 +11,7 @@ public class StudentAnimationEvents : MonoBehaviour
     private GameObject whatToHold;
 
     public GameObject Projectile;
+    public StateMachineBehaviour CurrentSMB;
 
     void Start()
     {
@@ -51,12 +52,12 @@ public class StudentAnimationEvents : MonoBehaviour
 
     public void PlayAudio()
     {
-        animator.GetBehaviour<PlayAudioVariation>()?.PlayAudio(sc.IsMale);
+        ((PlayAudioVariation)CurrentSMB)?.PlayAudio(sc.IsMale);
     }
 
     public void PlayClip(string clip)
     {
-        animator.GetBehaviour<PlayAudioClip>()?.PlayClip(clip);
+        ((PlayAudioClip)CurrentSMB)?.PlayClip(clip);
     }
 
     public void ThrowBall()

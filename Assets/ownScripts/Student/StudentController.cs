@@ -14,15 +14,15 @@ public class StudentController : MonoBehaviour
     public GameObject Model;
     public bool IsMale;
 
-    private float AwarenessRange = 1.4f;
-
     public string Behaviour = "idle";
+
+    public Animator StudentAnimator;
 
     private void Start()
     {
         Behaviour = "idle";
-
-        Instantiate(Model, transform);
+        GameObject go = Instantiate(Model, transform);
+        StudentAnimator = go.GetComponent<Animator>();
     }
 
     public static BootstrapResponse ClassToJson()

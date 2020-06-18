@@ -10,8 +10,10 @@ public class PlayAudioClip : StateMachineBehaviour
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        source = animator.gameObject.GetComponent<AudioSource>();
+        source = animator.transform.GetComponentInParent<AudioSource>();
         source.enabled = true;
+
+        animator.gameObject.GetComponent<StudentAnimationEvents>().CurrentSMB = this;
     }
 
     public void PlayClip(string clip)

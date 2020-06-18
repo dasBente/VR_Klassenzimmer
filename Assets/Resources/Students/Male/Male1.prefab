@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Projectile: {fileID: 2178251789926670317, guid: 7341f2a1eaed1b5438e72ed1fe7c1237,
     type: 3}
+  CurrentSMB: {fileID: 0}
 --- !u!1001 &1500149114546239295
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -999,7 +1000,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 70b475ec4f491104c980fb925fdc6d25,
         type: 3}
       propertyPath: m_TagString
-      value: Student
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: 70b475ec4f491104c980fb925fdc6d25,
         type: 3}

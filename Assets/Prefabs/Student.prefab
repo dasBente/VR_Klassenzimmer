@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5696524807333153995}
   - component: {fileID: -6302983131824811769}
-  - component: {fileID: -7436718064019865263}
   - component: {fileID: -2326553014999737306}
   - component: {fileID: 4739122442125071542}
   - component: {fileID: 6061396430795985231}
@@ -48,24 +47,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: 
-  Id: 
   Model: {fileID: 6898256606247583435, guid: a252019348e3229408ee4f8468b298a8, type: 3}
   IsMale: 0
   Behaviour: idle
---- !u!114 &-7436718064019865263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3796149387281992469}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21fb5ec04592990428059841e897d687, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Active: 1
-  IKIntensity: 0.8
+  StudentAnimator: {fileID: 0}
 --- !u!114 &-2326553014999737306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,6 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26dc0cce2a67bfa46ad1666f7861e4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!82 &4739122442125071542
 AudioSource:
   m_ObjectHideFlags: 0
