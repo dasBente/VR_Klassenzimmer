@@ -1,10 +1,11 @@
 import React from 'react'
-import Dashboard from './pages/Dashboard'
+import { Dashboard } from './pages/'
 import './sidebar.css'
+import { Link, Switch, Route, BrowserRouter as Router } from 'react-router-dom'
 
 const NavBar = () => (
   <nav className='navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow'>
-    <a className='navbar-brand col-md-3 col-lg-2 mr-0 px-3' href='#'>VR Classroom</a>
+    <Link className='navbar-brand col-md-3 col-lg-2 mr-0 px-3' to='/'>VR Classroom</Link>
     <button
       className='navbar-toggler position-absolute d-md-none collapsed'
       type='button'
@@ -24,10 +25,10 @@ const SidebarMenu = () => (
     <div className='sidebar-sticky pt-3'>
       <ul className='nav flex-column'>
         <li className='nav-item'>
-          <a className='nav-link active' href='#'>
+          <Link className='nav-link active' to="/">
             {/* Add icon maybe? */}
             Dashboard
-          </a>
+          </Link>
         </li>
       </ul>
     </div>
@@ -35,17 +36,19 @@ const SidebarMenu = () => (
 )
 
 const Main = () => (
-  <>
+  <Router>
     <NavBar />
     <div className='container-fluid'>
       <div className='row'>
         <SidebarMenu />
         <main className='col-md-9 ml-sm-auto col-lg-10 px-md-4' role='main'>
-          <Dashboard />
+          <Switch>
+            <Route path="/" exact><Dashboard /></Route>
+          </Switch>
         </main>
       </div>
     </div>
-  </>
+  </Router>
 )
 
 export default Main

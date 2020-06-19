@@ -13,7 +13,7 @@ const ClassState = () => {
       <div className='row row-cols-6'>
         {students.map(s => <div className="col"><StudentState key={s.id} student={s} /></div>)}
       </div>
-      <div className='row float-right'><ToggleAll /></div>
+      <div className='float-right'><ToggleAll /></div>
       <BehaviourControls />
     </div>
   )

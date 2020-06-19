@@ -4,15 +4,15 @@ import BehaviourButton from './BehaviourButton'
 
 const BehaviourControls = () => {
   return (
-    <div className='row'>
-      <div className='col border-right'>
+    <div>
+      <div className="mb-4">
         <h3>Good behaviours</h3>
         <div className='btn-group'>
           {goodBehaviours.map(
             b => <BehaviourButton key={b} behaviour={b} />)}
         </div>
       </div>
-      <div className='col border-left'>
+      <div>
         <h3>Bad behaviours</h3>
         <div className='btn-group'>
           {badBehaviours.map(b =>
