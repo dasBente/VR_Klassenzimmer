@@ -11,7 +11,7 @@ const Dashboard = () => (
         border-bottom
         `}
       >
-        <h1 className='h2 row'>Dashboard</h1>
+        <h1 className='h2 row'>Classroom</h1>
         <WebSocketState />
       </div>
       <ClassState />

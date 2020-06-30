@@ -9,8 +9,10 @@ let i = 0
 
 fs.createReadStream(from).pipe(csv()).on('data', row => {
   data.events.push({
-    id: i, type: 'behave', time: row.time,
-    payload: { behaviour: row.behaviour, students: [ row.student ] }
+    id: i,
+    action: { type: 'behave', students: [ row.student ] },
+    state: {},
+    time: row.time
   })
 }).on('end', () => {
   if (!to) console.error("No location given!")
